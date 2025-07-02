@@ -142,8 +142,8 @@ const Index = () => {
                 <TrendingUp className="w-4 h-4 mr-2" />
                 내 진도
               </Button>
-              <Button variant="ghost" size="sm" className="text-slate-300 hover:text-white">
-                <Users className="w-4 h-4 mr-2" />
+              <Button variant="ghost" size="sm" onClick={() => navigate('/history')} className="text-slate-300 hover:text-white">
+                <MessageCircle className="w-4 h-4 mr-2" />
                 히스토리
               </Button>
             </div>

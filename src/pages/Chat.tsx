@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -61,9 +62,12 @@ const Chat = () => {
     }
   }, [persona, topicId]);
 
+  // 메시지가 추가될 때마다 스크롤을 맨 아래로 이동
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages, isLoading]);
 
   const generateAIResponse = async (userMessage: string) => {
     // 실제 구현에서는 OpenAI API 호출
@@ -83,11 +87,12 @@ const Chat = () => {
     };
 
     const personaResponses = responses[persona as keyof typeof responses] || responses.beginner;
-    return personaResponses[Math.min(messages.filter(m => m.type === 'user').length - 1, personaResponses.length - 1)];
+    const responseIndex = Math.min(messages.filter(m => m.type === 'user').length - 1, personaResponses.length - 1);
+    return personaResponses[Math.max(0, responseIndex)];
   };
 
   const handleSendMessage = async () => {
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() || isLoading || conversationEnded) return;
 
     const userMessage = {
       id: messages.length + 1,
@@ -115,10 +120,11 @@ const Chat = () => {
         setIsLoading(false);
 
         // 피드백 표시
+        const userCount = messages.filter(m => m.type === 'user').length + 1;
         setCurrentFeedback({
           strengths: ['기본 개념 이해', '논리적 구조'],
           improvements: ['구체적 예시 필요', '실무 연결성 보완'],
-          score: 75,
+          score: Math.min(70 + (userCount * 5), 95),
           nextTopics: ['HTTP/HTTPS', '네트워크 보안']
         });
         setShowFeedback(true);
@@ -202,8 +208,8 @@ const Chat = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col">
-                {/* 메시지 영역 */}
-                <div className="flex-1 overflow-y-auto space-y-4 mb-4">
+                {/* 메시지 영역 - 스크롤 가능하게 수정 */}
+                <div className="flex-1 overflow-y-auto space-y-4 mb-4 max-h-[400px] pr-2">
                   {messages.map((message) => (
                     <div
                       key={message.id}
@@ -282,9 +288,9 @@ const Chat = () => {
 
             {/* 피드백 카드 */}
             {showFeedback && currentFeedback && (
-              <Card>
+              <Card className="bg-slate-800 border-slate-700">
                 <CardHeader>
-                  <CardTitle className="flex items-center text-lg">
+                  <CardTitle className="flex items-center text-lg text-white">
                     <Award className="w-5 h-5 mr-2 text-yellow-500" />
                     실시간 피드백
                   </CardTitle>
@@ -292,10 +298,10 @@ const Chat = () => {
                 <CardContent className="space-y-4">
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium">전체 점수</span>
-                      <Badge variant="secondary">{currentFeedback.score}점</Badge>
+                      <span className="font-medium text-slate-300">전체 점수</span>
+                      <Badge variant="secondary" className="bg-slate-700 text-slate-200">{currentFeedback.score}점</Badge>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-slate-700 rounded-full h-2">
                       <div 
                         className="bg-blue-500 h-2 rounded-full transition-all duration-500"
                         style={{ width: `${currentFeedback.score}%` }}
@@ -304,10 +310,10 @@ const Chat = () => {
                   </div>
                   
                   <div>
-                    <h4 className="font-medium text-green-600 mb-2">✅ 잘한 점</h4>
+                    <h4 className="font-medium text-green-400 mb-2">✅ 잘한 점</h4>
                     <ul className="text-sm space-y-1">
                       {currentFeedback.strengths.map((strength: string, index: number) => (
-                        <li key={index} className="flex items-center">
+                        <li key={index} className="flex items-center text-slate-300">
                           <div className="w-1.5 h-1.5 bg-green-500 rounded-full mr-2" />
                           {strength}
                         </li>
@@ -316,10 +322,10 @@ const Chat = () => {
                   </div>
 
                   <div>
-                    <h4 className="font-medium text-orange-600 mb-2">🔧 개선할 점</h4>
+                    <h4 className="font-medium text-orange-400 mb-2">🔧 개선할 점</h4>
                     <ul className="text-sm space-y-1">
                       {currentFeedback.improvements.map((improvement: string, index: number) => (
-                        <li key={index} className="flex items-center">
+                        <li key={index} className="flex items-center text-slate-300">
                           <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mr-2" />
                           {improvement}
                         </li>
@@ -331,9 +337,9 @@ const Chat = () => {
             )}
 
             {/* 다음 추천 주제 */}
-            <Card>
+            <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
-                <CardTitle className="flex items-center text-lg">
+                <CardTitle className="flex items-center text-lg text-white">
                   <Lightbulb className="w-5 h-5 mr-2 text-yellow-500" />
                   다음 추천 주제
                 </CardTitle>
@@ -344,7 +350,7 @@ const Chat = () => {
                     <Button
                       key={index}
                       variant="outline"
-                      className="w-full justify-start text-left"
+                      className="w-full justify-start text-left border-slate-600 text-slate-300 hover:bg-slate-700"
                       onClick={() => toast.success(`${topic} 주제로 이동합니다!`)}
                     >
                       {topic}
@@ -355,23 +361,23 @@ const Chat = () => {
             </Card>
 
             {/* 학습 통계 */}
-            <Card>
+            <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
-                <CardTitle className="text-lg">오늘의 학습</CardTitle>
+                <CardTitle className="text-lg text-white">오늘의 학습</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm">대화 횟수</span>
-                    <Badge variant="secondary">{messages.filter(m => m.type === 'user').length}회</Badge>
+                    <span className="text-sm text-slate-300">대화 횟수</span>
+                    <Badge variant="secondary" className="bg-slate-700 text-slate-200">{messages.filter(m => m.type === 'user').length}회</Badge>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm">학습 시간</span>
-                    <Badge variant="secondary">12분</Badge>
+                    <span className="text-sm text-slate-300">학습 시간</span>
+                    <Badge variant="secondary" className="bg-slate-700 text-slate-200">12분</Badge>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm">완료한 주제</span>
-                    <Badge variant="secondary">1개</Badge>
+                    <span className="text-sm text-slate-300">완료한 주제</span>
+                    <Badge variant="secondary" className="bg-slate-700 text-slate-200">1개</Badge>
                   </div>
                 </div>
               </CardContent>
