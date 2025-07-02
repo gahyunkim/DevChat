@@ -1,73 +1,128 @@
-# Welcome to your Lovable project
+# 🧠 DevTalk - 대화형 CS 학습 & 면접 훈련 플랫폼
 
-## Project info
+> “재밌게 시작했는데 어느새 면접까지 준비되고 있었다.”
 
-**URL**: https://lovable.dev/projects/c5867420-5ac1-4a43-aeee-9116bc5ba948
+**DevTalk**은 개발자 취업을 준비하는 이들을 위한 GPT 기반 대화형 CS 학습 & 면접 훈련 플랫폼입니다.
 
-## How can I edit this code?
+실제 면접처럼 **질문을 받고, 답변을 해보며 시작**합니다.  
+GPT는 답변을 분석해 **누락된 개념과 키워드**를 피드백하고,  
+이를 바탕으로 **개념 카드, 퀴즈, 추가 질문**으로 학습을 이어갑니다.
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🔗 배포 URL  
+👉 https://dev-chat.lovable.app/
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/c5867420-5ac1-4a43-aeee-9116bc5ba948) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🙋‍♀️ 여러분의 서비스는 누가 사용하나요?
 
-**Use your preferred IDE**
+| 사용자 | 페르소나 |
+|--------|---------------|
+| **#페르소나1: 전공자 취준생**<br>기본 지식을 재밌게 정리하고 싶은 사람 | **이름:** 김가현<br>**나이:** 25세<br>**전공:** 컴퓨터공학<br>**상황:** 하반기 취업 준비<br>**목표:** 면접 수준까지 CS 정리<br>**니즈:** 꾸준한 공부, 자기 실력 확인, 면접 훈련 |
+| **#페르소나2: 비전공 취준생**<br>무지 상태에서 출발하는 사람 | **이름:** 최민재<br>**나이:** 27세<br>**전공:** 경영학<br>**상황:** 개발자 전향 준비 중<br>**목표:** 기초부터 CS 개념 익히기<br>**니즈:** 쉬운 설명, 반복 학습, GPT 피드백 |
+| **#페르소나3: 주니어 개발자**<br>면접에 약한 실무자 | **이름:** 이준호<br>**나이:** 26세<br>**전공:** 경영학<br>**상황:** 스타트업 프론트엔드 개발자, 이직 준비<br>**목표:** 면접 감각 향상<br>**니즈:** 실전 질문 훈련, 말하기 연습, 피드백 |
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🎯 사용자 시나리오 요약
 
-Follow these steps:
+- 김가현은 부트캠프 수업을 마치고 지하철에서 가볍게 DevTalk 앱을 엽니다.
+오늘의 추천 주제 중 **‘TCP와 UDP’** 를 선택하고, GPT가 “가장 큰 차이가 뭐라고 생각하세요?”라고 묻습니다.
+김가현은 순서 보장에 대해 설명했지만 ‘신뢰성’, ‘속도 비교’ 등 일부 개념이 누락됩니다.
+GPT는 부족한 키워드를 짚고, 예시 답변을 제시하며 대화를 이어갑니다.
+이후 개념 카드로 핵심 정리를 마치고, 퀴즈를 통해 복습합니다.
+복습 후에는 다음 주제가 추천됩니다.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- 최민재는 비전공자로서 CS 개념이 막막하지만, 오늘의 추천 주제 중 가장 익숙한 **‘HTTP와 HTTPS’** 를 선택합니다.
+GPT는 “HTTP와 HTTPS의 가장 큰 차이는 무엇인가요?”라고 묻고, 민재는 “보안이요”라고 답합니다.
+GPT는 ‘암호화 방식’, ‘인증서’, ‘SSL/TLS’ 등 빠진 개념을 알려주고,
+택배 봉인 비유를 통해 쉽게 설명해줍니다.
+민재는 개념 카드와 함께 OX 퀴즈로 복습하고,
+‘한 줄 요약’을 작성해 GPT 피드백을 받으며 개념을 정리합니다.
+정리 후에는 다음 주제가 추천됩니다.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- 이준호는 이직 면접을 준비하며 퇴근 후 DevTalk 앱을 켭니다.
+추천 주제 중 **‘캐시와 쿠키’** 를 선택하고, GPT의 질문에 직접 말로 답변합니다.
+답변 후 GPT는 ‘저장 위치’, ‘만료 정책’, ‘세션과의 차이’ 등 누락된 키워드를 알려주고,
+실제 면접 예시와 함께 개선된 답변을 제시합니다.
+이후 실무 맥락 중심의 개념 카드를 확인하고 퀴즈로 복습하며,
+다음 주제가 추천됩니다.
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## ✅ 핵심 기능 요구사항
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+- ✅ **오늘의 추천 주제 제공**: 매일 3개의 CS 주제를 추천하여 학습을 시작할 수 있도록 유도
+- ✅ **GPT 기반 대화형 면접 질문 훈련**: 주제에 대한 질문을 GPT가 제시하고, 사용자는 텍스트/음성으로 답변
+누락된 개념, 키워드, 구조에 대해 피드백과 예시 답변 제공
+- ✅ **개념 카드 제공**: GPT 피드백을 기반으로 개념 요약 카드 연결
+비유, 실생활 예시, 핵심 키워드를 중심으로 정리 제공
+- ✅ **퀴즈 기반 반복 학습**: 개념 이해도를 확인할 수 있는 OX/객관식/빈칸 퀴즈 제공
+오답 시 해당 개념 카드로 복귀하여 반복 학습 유도
+- ✅ **한 줄 요약 & GPT 피드백 기능**:
+사용자가 배운 내용을 한 줄로 정리해 입력하면, GPT가 간단한 피드백 제공
+- ✅ **학습 히스토리 저장**: 모든 대화, 피드백, 퀴즈 결과, 요약 등을 저장, 누적 진척도 시각화 및 약점 개념 분석 가능
+- ✅ **다음 학습 주제 자동 추천**: 학습한 개념과 연관된 주제를 GPT가 추천하여 흐름 있게 학습 지속 가능
+- ✅ **SNS 공유 기능**: 오늘의 주제, 퀴즈 결과, 학습 완료 이미지 등 자동 생성하여 공유 가능
+---
 
-**Edit a file directly in GitHub**
+## 📜 사용자 스토리 & 인수 조건 예시
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### 📌 스토리와 인수조건 1-1 (공통 시작 흐름)
 
-**Use GitHub Codespaces**
+- **요구사항: 오늘의 주제 추천 및 대화 기반 학습 시작 기능**
+- **사용자 스토리**:
+    
+    “사용자로서, 앱을 켜면 오늘의 추천 주제 중 하나를 선택해 가볍게 면접관과 이야기 나누듯 CS 대화를 시작하고 싶습니다. 어떤 개념이 부족한지도 자연스럽게 알고 싶어요.”
+    
+- **인수조건**:
+    - **Given**: 사용자가 앱을 실행했을 때
+    - **When**: 메인 화면에서 ‘오늘의 추천 주제’ 중 하나를 선택하면
+    - **Then**: 면접관이 해당 주제에 대한 첫 질문을 던지며 대화가 시작된다
+    - **And**: 사용자가 답변하면 면접관은 누락된 개념을 짚어주며 대화를 확장한다
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+### 📌 스토리와 인수조건 1-2 (페르소나1 – 전공 취준생)
 
-This project is built with:
+- **요구사항**: 개념 대화 및 피드백 제공 기능
+- **사용자 스토리**:
+    
+    “전공자로서 CS 개념은 어느 정도 알고 있지만, 말하려 하면 막힙니다. 면접관처럼 질문을 받아서 대답해보고, 빠진 개념은 피드백 받으며 보완하고 싶어요.”
+    
+- **인수조건**:
+    - **Given**: 사용자가 주제를 선택하고 첫 질문에 답변한 상태
+    - **When**: 면접관이 후속 질문을 던지고, 사용자가 대답을 이어가면
+    - **Then**: 면접관은 답변에 대한 구조적 피드백과 함께 누락된 개념을 짚어준다
+    - **And**: 필요 시 추가 개념 카드, 퀴즈를 통해 보완 학습할 수 있다
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+### 📌 스토리와 인수조건 2 (페르소나2 – 비전공자용)
 
-Simply open [Lovable](https://lovable.dev/projects/c5867420-5ac1-4a43-aeee-9116bc5ba948) and click on Share -> Publish.
+- **요구사항**: 쉬운 개념 카드 제공 및 요약 학습 기능
+- **사용자 스토리**:
+    
+    “비전공자로서 CS가 너무 어렵게 느껴집니다. 면접관이 어려운 개념은 쉽게 설명해주고, 직접 요약해보며 개념을 정리할 수 있다면 좋겠어요.”
+    
+- **인수조건**:
+    - **Given**: 사용자가 면접관과의 대화 중 개념을 잘 이해하지 못했을 때
+    - **When**: ‘설명 더 보기’ 버튼을 누르면
+    - **Then**: 개념에 대한 쉬운 설명 카드(비유, 실생활 예시 포함)가 순차적으로 보여진다
+    - **And**: 사용자가 ‘한 줄 요약’을 입력하면, 면접관이 그 요약에 간단한 피드백을 제공한다
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
+### 📌 스토리와 인수조건 3 (페르소나3 – 주니어 개발자용)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- **요구사항**: 실전 면접 연습 및 피드백 기능
+- **사용자 스토리**:
+    
+    “1-2년차 주니어 개발자로서, 실무는 잘하지만 면접 질문에 자주 막혀요. 면접관처럼 질문을 던져주고, 내가 말한 답변을 평가해주면 실전 감각을 기를 수 있을 것 같아요.”
+    
+- **인수조건**:
+    - **Given**: 사용자가 특정 개념 학습을 마친 상태
+    - **When**: ‘실전 면접 연습’ 기능을 실행하면
+    - **Then**: 면접관이 해당 개념에 기반한 면접 질문을 던진다
+    - **And**: 사용자가 음성 또는 텍스트로 답변하면, 면접관이 누락 키워드, 잘못된 표현, 보완할 점을 알려준다
+    - **And**: 해당 답변과 피드백은 히스토리에 저장되어 이후 학습에 활용된다
