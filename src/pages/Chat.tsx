@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -7,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Brain, Send, ArrowLeft, Lightbulb, BookOpen, Award, Volume2, Mic } from 'lucide-react';
 import { toast } from 'sonner';
+import ChatTimer from '@/components/ChatTimer';
 
 const Chat = () => {
   const [searchParams] = useSearchParams();
@@ -16,6 +16,7 @@ const Chat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [currentFeedback, setCurrentFeedback] = useState<any>(null);
+  const [conversationEnded, setConversationEnded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const persona = searchParams.get('persona');
@@ -135,32 +136,52 @@ const Chat = () => {
     }
   };
 
+  const handleTimeUp = () => {
+    setConversationEnded(true);
+    const finalScore = currentFeedback?.score || 75;
+    
+    // Add final AI message
+    const finalMessage = {
+      id: messages.length + 1,
+      type: 'ai' as const,
+      content: `시간이 다 되었습니다! 오늘 대화 잘 하셨어요.\n\n📊 최종 점수: ${finalScore}점\n\n이제 학습 정리 화면으로 이동해서 오늘 배운 내용을 복습해보세요. 추가 개념 설명과 연습 문제가 준비되어 있습니다.`,
+      timestamp: new Date()
+    };
+    
+    setMessages(prev => [...prev, finalMessage]);
+    
+    // Navigate to study page after 3 seconds
+    setTimeout(() => {
+      navigate(`/study?topic=${topicId}&score=${finalScore}`);
+    }, 3000);
+  };
+
   if (!currentPersona || !currentTopic) {
-    return <div>페이지를 찾을 수 없습니다.</div>;
+    return <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center">페이지를 찾을 수 없습니다.</div>;
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-slate-900 text-slate-100">
       {/* Header */}
-      <div className="border-b bg-white/80 backdrop-blur sticky top-0 z-10">
+      <div className="border-b border-slate-700 bg-slate-800/80 backdrop-blur sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
+              <Button variant="ghost" size="sm" onClick={() => navigate('/')} className="text-slate-300 hover:text-white">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 돌아가기
               </Button>
               <div className="flex items-center space-x-3">
-                <Brain className="w-6 h-6 text-blue-500" />
+                <Brain className="w-6 h-6 text-blue-400" />
                 <div>
-                  <h1 className="text-lg font-semibold">{currentTopic.title}</h1>
-                  <p className="text-sm text-gray-600">{currentPersona.name} 모드</p>
+                  <h1 className="text-lg font-semibold text-white">{currentTopic.title}</h1>
+                  <p className="text-sm text-slate-400">{currentPersona.name} 모드</p>
                 </div>
               </div>
             </div>
             <div className="flex items-center space-x-2">
-              <Badge variant="secondary">{currentPersona.name}</Badge>
-              <Button variant="ghost" size="sm">
+              <Badge variant="secondary" className="bg-slate-700 text-slate-200">{currentPersona.name}</Badge>
+              <Button variant="ghost" size="sm" className="text-slate-300 hover:text-white">
                 <BookOpen className="w-4 h-4 mr-2" />
                 개념 카드
               </Button>
@@ -173,10 +194,10 @@ const Chat = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* 메인 채팅 영역 */}
           <div className="lg:col-span-2">
-            <Card className="h-[600px] flex flex-col">
+            <Card className="h-[600px] flex flex-col bg-slate-800 border-slate-700">
               <CardHeader className="pb-4">
-                <CardTitle className="flex items-center text-lg">
-                  <Brain className="w-5 h-5 mr-2 text-blue-500" />
+                <CardTitle className="flex items-center text-lg text-white">
+                  <Brain className="w-5 h-5 mr-2 text-blue-400" />
                   AI 면접관과의 대화
                 </CardTitle>
               </CardHeader>
@@ -191,14 +212,14 @@ const Chat = () => {
                       <div
                         className={`max-w-[80%] p-4 rounded-lg ${
                           message.type === 'user'
-                            ? 'bg-blue-500 text-white'
-                            : 'bg-gray-100 text-gray-900'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-slate-700 text-slate-100'
                         }`}
                       >
                         <div className="whitespace-pre-wrap">{message.content}</div>
                         {message.type === 'ai' && (
                           <div className="flex items-center justify-end mt-2 space-x-2">
-                            <Button variant="ghost" size="sm" className="h-6 text-xs">
+                            <Button variant="ghost" size="sm" className="h-6 text-xs text-slate-400 hover:text-white">
                               <Volume2 className="w-3 h-3 mr-1" />
                               읽기
                             </Button>
@@ -209,10 +230,10 @@ const Chat = () => {
                   ))}
                   {isLoading && (
                     <div className="flex justify-start">
-                      <div className="bg-gray-100 p-4 rounded-lg">
+                      <div className="bg-slate-700 p-4 rounded-lg">
                         <div className="flex items-center space-x-2">
-                          <div className="animate-spin w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full"></div>
-                          <span className="text-sm text-gray-600">AI가 답변을 생각하고 있습니다...</span>
+                          <div className="animate-spin w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full"></div>
+                          <span className="text-sm text-slate-300">AI가 답변을 생각하고 있습니다...</span>
                         </div>
                       </div>
                     </div>
@@ -221,7 +242,7 @@ const Chat = () => {
                 </div>
 
                 {/* 입력 영역 */}
-                <div className="border-t pt-4">
+                <div className="border-t border-slate-700 pt-4">
                   <div className="flex space-x-3">
                     <div className="flex-1">
                       <Textarea
@@ -229,19 +250,20 @@ const Chat = () => {
                         onChange={(e) => setInputValue(e.target.value)}
                         onKeyPress={handleKeyPress}
                         placeholder="답변을 입력하세요... (Enter로 전송)"
-                        className="min-h-[60px] resize-none"
-                        disabled={isLoading}
+                        className="min-h-[60px] resize-none bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400"
+                        disabled={isLoading || conversationEnded}
                       />
                     </div>
                     <div className="flex flex-col space-y-2">
                       <Button
                         onClick={handleSendMessage}
-                        disabled={!inputValue.trim() || isLoading}
+                        disabled={!inputValue.trim() || isLoading || conversationEnded}
                         size="sm"
+                        className="bg-blue-600 hover:bg-blue-700"
                       >
                         <Send className="w-4 h-4" />
                       </Button>
-                      <Button variant="outline" size="sm">
+                      <Button variant="outline" size="sm" className="border-slate-600 hover:bg-slate-700">
                         <Mic className="w-4 h-4" />
                       </Button>
                     </div>
@@ -253,6 +275,11 @@ const Chat = () => {
 
           {/* 사이드바 */}
           <div className="space-y-6">
+            {/* Timer */}
+            {!conversationEnded && (
+              <ChatTimer onTimeUp={handleTimeUp} initialTime={600} />
+            )}
+
             {/* 피드백 카드 */}
             {showFeedback && currentFeedback && (
               <Card>
