@@ -11,7 +11,7 @@ import {
   Target, 
   Calendar, 
   Trophy, 
-  Fire, 
+  Flame, 
   Star, 
   Plus,
   ArrowLeft,

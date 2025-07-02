@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -17,7 +16,7 @@ import {
   Crown,
   Medal,
   Star,
-  Fire,
+  Flame,
   Target,
   Send
 } from 'lucide-react';
@@ -248,7 +247,7 @@ const Community = () => {
                                 {user.score}점
                               </span>
                               <span className="flex items-center">
-                                <Fire className="w-3 h-3 mr-1" />
+                                <Flame className="w-3 h-3 mr-1" />
                                 {user.streak}일
                               </span>
                               <span className="flex items-center">
