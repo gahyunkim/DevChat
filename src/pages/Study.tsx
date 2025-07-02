@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -131,7 +130,7 @@ const Study = () => {
               <Badge variant="secondary" className="bg-slate-700 text-slate-200">
                 점수: {score}점
               </Badge>
-              <Button variant="outline" size="sm" className="border-slate-600 text-slate-300 hover:bg-slate-700">
+              <Button variant="outline" size="sm" className="border-slate-600 text-slate-800 hover:text-blue-700">
                 <RotateCcw className="w-4 h-4 mr-2" />
                 다시 대화하기
               </Button>
@@ -191,7 +190,7 @@ const Study = () => {
                       onClick={() => toggleSection(section.id)}
                       className={isCompleted 
                         ? "bg-green-600 hover:bg-green-700 text-white" 
-                        : "border-slate-600 text-slate-300 hover:bg-slate-700"
+                        : "border-slate-600 text-slate-800 hover:text-blue-700"
                       }
                     >
                       {isCompleted ? '완료됨' : '학습 완료'}
@@ -247,7 +246,7 @@ const Study = () => {
                   <Brain className="w-4 h-4 mr-2" />
                   다른 주제 선택
                 </Button>
-                <Button variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700">
+                <Button variant="outline" className="border-slate-600 text-slate-800 hover:text-blue-700">
                   <Clock className="w-4 h-4 mr-2" />
                   학습 기록 보기
                 </Button>

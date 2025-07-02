@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -20,6 +19,12 @@ import {
   Crown
 } from 'lucide-react';
 import { toast } from 'sonner';
+
+function shiftDate(date, numDays) {
+  const newDate = new Date(date);
+  newDate.setDate(newDate.getDate() + numDays);
+  return newDate;
+}
 
 const Goals = () => {
   const navigate = useNavigate();
@@ -69,7 +74,7 @@ const Goals = () => {
 
   const achievements = [
     { id: 1, title: '첫 대화', description: 'AI와 첫 면접 대화 완료', earned: true, icon: Star },
-    { id: 2, title: '연속 3일', description: '3일 연속 학습 달성', earned: true, icon: Fire },
+    { id: 2, title: '연속 3일', description: '3일 연속 학습 달성', earned: true, icon: Flame },
     { id: 3, title: '완벽한 답변', description: '90점 이상 받기', earned: false, icon: Crown },
     { id: 4, title: '주제 마스터', description: '한 주제에서 5회 연속 80점 이상', earned: false, icon: Trophy }
   ];
@@ -165,7 +170,7 @@ const Goals = () => {
                     <Button onClick={handleAddGoal} className="bg-blue-600 hover:bg-blue-700">
                       목표 추가
                     </Button>
-                    <Button variant="outline" onClick={() => setShowAddGoal(false)} className="border-slate-600 text-slate-300">
+                    <Button variant="outline" onClick={() => setShowAddGoal(false)} className="border-slate-600 text-slate-800 hover:text-blue-700">
                       취소
                     </Button>
                   </div>
@@ -208,7 +213,7 @@ const Goals = () => {
                           <Gift className="w-4 h-4 mr-1" />
                           <span className="text-sm">보상: {goal.reward}</span>
                         </div>
-                        <Button size="sm" variant="outline" className="border-slate-600 text-slate-300">
+                        <Button size="sm" variant="outline" className="border-slate-600 text-slate-800 hover:text-blue-700">
                           수정
                         </Button>
                       </div>
@@ -225,7 +230,7 @@ const Goals = () => {
             <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
                 <CardTitle className="flex items-center text-white">
-                  <Fire className="w-5 h-5 mr-2 text-orange-500" />
+                  <Flame className="w-5 h-5 mr-2 text-orange-500" />
                   보상 진행률
                 </CardTitle>
               </CardHeader>

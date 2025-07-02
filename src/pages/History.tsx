@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -186,7 +185,7 @@ const History = () => {
                       onClick={() => setSelectedFilter(filter.key)}
                       className={selectedFilter === filter.key 
                         ? "bg-blue-600 hover:bg-blue-700" 
-                        : "border-slate-600 text-slate-300 hover:bg-slate-700"
+                        : "border-slate-600 text-slate-800 hover:text-blue-700"
                       }
                     >
                       {filter.label}
@@ -314,7 +313,7 @@ const History = () => {
                   <Button 
                     variant="outline" 
                     size="sm"
-                    className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                    className="border-slate-600 text-slate-800 hover:text-blue-700"
                     onClick={() => navigate(`/study?topic=${item.id}&score=${item.score}`)}
                   >
                     복습하기
@@ -322,7 +321,7 @@ const History = () => {
                   <Button 
                     variant="outline" 
                     size="sm"
-                    className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                    className="border-slate-600 text-slate-800 hover:text-blue-700"
                     onClick={() => navigate(`/chat?persona=${item.persona.toLowerCase().replace(' ', '')}&topic=${item.id}`)}
                   >
                     다시 대화하기

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -19,6 +18,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 
 const SkillTest = () => {
   const navigate = useNavigate();
@@ -417,7 +417,7 @@ const SkillTest = () => {
                         <Button 
                           size="sm" 
                           variant="outline" 
-                          className="w-full border-slate-600 text-slate-300"
+                          className="w-full border-slate-600 text-slate-800 hover:text-blue-700"
                           onClick={() => navigate(`/chat?topic=${category}`)}
                         >
                           {category} 학습하기
@@ -440,14 +440,14 @@ const SkillTest = () => {
                   </Button>
                   <Button 
                     variant="outline" 
-                    className="w-full border-slate-600 text-slate-300"
+                    className="w-full border-slate-600 text-slate-800 hover:text-blue-700"
                     onClick={() => window.location.reload()}
                   >
                     테스트 다시 보기
                   </Button>
                   <Button 
                     variant="outline" 
-                    className="w-full border-slate-600 text-slate-300"
+                    className="w-full border-slate-600 text-slate-800 hover:text-blue-700"
                     onClick={() => navigate('/chat')}
                   >
                     AI 면접 연습하기
@@ -513,10 +513,17 @@ const SkillTest = () => {
             >
               {question.options.map((option, index) => (
                 <div key={index} className="flex items-center space-x-2">
-                  <RadioGroupItem value={index.toString()} id={`option-${index}`} />
                   <Label 
                     htmlFor={`option-${index}`} 
-                    className="text-slate-300 cursor-pointer flex-1 p-3 rounded-lg border border-slate-700 hover:border-slate-600 hover:bg-slate-700/50"
+                    onClick={() => handleAnswerChange(index.toString())}
+                    className={
+                      cn(
+                        "text-slate-300 cursor-pointer flex-1 p-3 rounded-lg border border-slate-700 transition-colors select-none",
+                        answers[currentQuestion] === index.toString()
+                          ? "bg-blue-400/80 text-slate-900 font-bold border-blue-300 shadow-md ring-2 ring-blue-200"
+                          : "hover:bg-slate-700/30 hover:border-slate-500 hover:text-slate-100"
+                      )
+                    }
                   >
                     {option}
                   </Label>
@@ -529,7 +536,7 @@ const SkillTest = () => {
                 variant="outline" 
                 onClick={handlePrevious}
                 disabled={currentQuestion === 0}
-                className="border-slate-600 text-slate-300"
+                className="border-slate-600 text-slate-800 hover:text-blue-700"
               >
                 이전 문제
               </Button>

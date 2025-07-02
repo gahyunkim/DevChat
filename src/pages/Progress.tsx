@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -334,7 +333,7 @@ const ProgressPage = () => {
                   <Brain className="w-4 h-4 mr-2" />
                   새 주제 시작
                 </Button>
-                <Button variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700">
+                <Button variant="outline" className="border-slate-600 text-slate-800 hover:text-blue-700">
                   <Target className="w-4 h-4 mr-2" />
                   목표 설정
                 </Button>

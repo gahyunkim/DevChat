@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Brain, Send, ArrowLeft, Lightbulb, BookOpen, Award, Volume2, Mic } from 'lucide-react';
@@ -20,9 +20,9 @@ const Chat = () => {
   const [conversationEnded, setConversationEnded] = useState(false);
   const [showExitDialog, setShowExitDialog] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
 
   const persona = searchParams.get('persona');
-  const topicId = searchParams.get('topic');
 
   const topics = {
     '1': { title: 'TCP vs UDP', description: '네트워크 프로토콜의 핵심 차이점' },
@@ -30,7 +30,7 @@ const Chat = () => {
     '3': { title: '캐시와 쿠키', description: '웹 저장소의 종류와 활용' }
   };
 
-  const currentTopic = topics[topicId as keyof typeof topics];
+  const currentTopic = selectedTopic ? topics[selectedTopic as keyof typeof topics] : null;
 
   const personaConfigs = {
     beginner: {
@@ -68,7 +68,7 @@ const Chat = () => {
         timestamp: new Date()
       }]);
     }
-  }, [persona, topicId]);
+  }, [persona, selectedTopic]);
 
   // 메시지가 추가될 때마다 스크롤을 맨 아래로 이동
   useEffect(() => {
@@ -166,7 +166,7 @@ const Chat = () => {
     
     // Navigate to study page after 3 seconds
     setTimeout(() => {
-      navigate(`/study?topic=${topicId}&score=${finalScore}`);
+      navigate(`/study?topic=${selectedTopic}&score=${finalScore}`);
     }, 3000);
   };
 
@@ -191,6 +191,25 @@ const Chat = () => {
     setShowExitDialog(false);
     navigate('/');
   };
+
+  // 대화 시작 전 주제 선택 UI
+  if (!selectedTopic) {
+    return (
+      <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col items-center justify-center">
+        <h2 className="text-2xl font-bold mb-6">면접 주제를 선택하세요</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {Object.entries(topics).map(([id, topic]) => (
+            <Card key={id} className="bg-slate-800 border-slate-700 cursor-pointer hover:border-blue-500" onClick={() => setSelectedTopic(id)}>
+              <CardHeader>
+                <CardTitle className="text-white">{topic.title}</CardTitle>
+                <CardDescription className="text-slate-400">{topic.description}</CardDescription>
+              </CardHeader>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   if (!currentPersona || !currentTopic) {
     return <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center">페이지를 찾을 수 없습니다.</div>;
@@ -299,7 +318,7 @@ const Chat = () => {
                       >
                         <Send className="w-4 h-4" />
                       </Button>
-                      <Button variant="outline" size="sm" className="border-slate-600 hover:bg-slate-700">
+                      <Button variant="outline" size="sm" className="border-slate-600 text-slate-800 hover:text-blue-700">
                         <Mic className="w-4 h-4" />
                       </Button>
                     </div>

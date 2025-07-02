@@ -84,37 +84,6 @@ const Community = () => {
     }
   ];
 
-  // Mock data for study groups
-  const studyGroups = [
-    {
-      id: 1,
-      name: '네트워크 마스터 그룹',
-      description: '네트워크 관련 CS 지식을 함께 공부하는 그룹',
-      members: 24,
-      level: 'Intermediate - Advanced',
-      topics: ['TCP/UDP', 'HTTP/HTTPS', 'DNS', '네트워크 보안'],
-      isJoined: true
-    },
-    {
-      id: 2,
-      name: '알고리즘 스터디',
-      description: '코딩 테스트 대비 알고리즘 문제 해결',
-      members: 18,
-      level: 'All Levels',
-      topics: ['정렬', '탐색', 'DP', '그래프'],
-      isJoined: false
-    },
-    {
-      id: 3,
-      name: '면접 준비 스터디',
-      description: '실제 면접 경험 공유 및 모의 면접',
-      members: 32,
-      level: 'Beginner - Intermediate',
-      topics: ['면접 팁', '프로젝트 설명', 'CS 기초'],
-      isJoined: false
-    }
-  ];
-
   // Mock data for recent activities
   const recentActivities = [
     {
@@ -201,9 +170,7 @@ const Community = () => {
         <Tabs defaultValue="leaderboard" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4 bg-slate-800 border-slate-700">
             <TabsTrigger value="leaderboard">랭킹</TabsTrigger>
-            <TabsTrigger value="groups">스터디 그룹</TabsTrigger>
             <TabsTrigger value="activities">활동 피드</TabsTrigger>
-            <TabsTrigger value="chat">실시간 채팅</TabsTrigger>
           </TabsList>
 
           {/* 랭킹 탭 */}
@@ -270,7 +237,7 @@ const Community = () => {
                                 </Badge>
                               )}
                             </div>
-                            <Button size="sm" variant="outline" className="border-slate-600 text-slate-300">
+                            <Button size="sm" variant="outline" className="border-slate-600 text-slate-800 hover:text-blue-700">
                               프로필 보기
                             </Button>
                           </div>
@@ -346,51 +313,6 @@ const Community = () => {
             </div>
           </TabsContent>
 
-          {/* 스터디 그룹 탭 */}
-          <TabsContent value="groups" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {studyGroups.map((group) => (
-                <Card key={group.id} className="bg-slate-800 border-slate-700">
-                  <CardHeader>
-                    <CardTitle className="text-white">{group.name}</CardTitle>
-                    <CardDescription className="text-slate-400">
-                      {group.description}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-300">멤버</span>
-                        <span className="text-white">{group.members}명</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-300">수준</span>
-                        <Badge variant="outline" className="border-slate-600 text-slate-300">
-                          {group.level}
-                        </Badge>
-                      </div>
-                      <div>
-                        <p className="text-sm text-slate-400 mb-2">주요 주제:</p>
-                        <div className="flex flex-wrap gap-1">
-                          {group.topics.map((topic, index) => (
-                            <Badge key={index} variant="secondary" className="bg-slate-700 text-slate-300 text-xs">
-                              {topic}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                      <Button 
-                        className={`w-full ${group.isJoined ? 'bg-green-600 hover:bg-green-700' : 'bg-blue-600 hover:bg-blue-700'}`}
-                      >
-                        {group.isJoined ? '참여 중' : '참여하기'}
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
           {/* 활동 피드 탭 */}
           <TabsContent value="activities" className="space-y-6">
             <Card className="bg-slate-800 border-slate-700">
@@ -417,70 +339,6 @@ const Community = () => {
                       </Badge>
                     </div>
                   ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* 실시간 채팅 탭 */}
-          <TabsContent value="chat" className="space-y-6">
-            <Card className="bg-slate-800 border-slate-700 h-[600px] flex flex-col">
-              <CardHeader>
-                <CardTitle className="flex items-center text-white">
-                  <MessageCircle className="w-5 h-5 mr-2 text-blue-400" />
-                  실시간 채팅
-                </CardTitle>
-                <CardDescription className="text-slate-400">
-                  다른 학습자들과 실시간으로 소통하세요
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex-1 flex flex-col">
-                <div className="flex-1 overflow-y-auto space-y-3 mb-4 p-4 bg-slate-900 rounded-lg">
-                  <div className="flex items-start space-x-3">
-                    <Avatar className="w-8 h-8">
-                      <AvatarFallback className="bg-slate-600 text-white text-xs">김</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="text-sm text-slate-300">
-                        <span className="font-semibold text-blue-400">김개발</span>
-                        <span className="text-xs text-slate-500 ml-2">10:30</span>
-                      </p>
-                      <p className="text-white">TCP 3-way handshake 관련해서 질문이 있어요!</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <Avatar className="w-8 h-8">
-                      <AvatarFallback className="bg-slate-600 text-white text-xs">박</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="text-sm text-slate-300">
-                        <span className="font-semibold text-green-400">박코딩</span>
-                        <span className="text-xs text-slate-500 ml-2">10:32</span>
-                      </p>
-                      <p className="text-white">어떤 부분이 궁금하신가요? 설명해드릴게요!</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <Avatar className="w-8 h-8">
-                      <AvatarFallback className="bg-slate-600 text-white text-xs">이</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="text-sm text-slate-300">
-                        <span className="font-semibold text-purple-400">이프로그래머</span>
-                        <span className="text-xs text-slate-500 ml-2">10:35</span>
-                      </p>
-                      <p className="text-white">저도 궁금했던 부분이에요. 함께 공부해요!</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex space-x-2">
-                  <Input
-                    placeholder="메시지를 입력하세요..."
-                    className="flex-1 bg-slate-700 border-slate-600 text-white"
-                  />
-                  <Button className="bg-blue-600 hover:bg-blue-700">
-                    <Send className="w-4 h-4" />
-                  </Button>
                 </div>
               </CardContent>
             </Card>

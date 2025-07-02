@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -287,7 +286,7 @@ const CustomTopics = () => {
                   <Save className="w-4 h-4 mr-2" />
                   주제 생성
                 </Button>
-                <Button variant="outline" onClick={() => setShowCreateForm(false)} className="border-slate-600 text-slate-300">
+                <Button variant="outline" onClick={() => setShowCreateForm(false)} className="border-slate-600 text-slate-800 hover:text-blue-700">
                   취소
                 </Button>
               </div>
@@ -391,13 +390,13 @@ const CustomTopics = () => {
                       <Play className="w-3 h-3 mr-1" />
                       시작
                     </Button>
-                    <Button size="sm" variant="outline" className="border-slate-600 text-slate-300">
+                    <Button size="sm" variant="outline" className="border-slate-600 text-slate-800 hover:text-blue-700">
                       <Edit className="w-3 h-3" />
                     </Button>
                     <Button 
                       size="sm" 
                       variant="outline" 
-                      className="border-slate-600 text-slate-300 hover:border-red-600 hover:text-red-400"
+                      className="border-slate-600 text-slate-800 hover:text-blue-700"
                       onClick={() => handleDeleteTopic(topic.id)}
                     >
                       <Trash2 className="w-3 h-3" />
