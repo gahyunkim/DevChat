@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -8,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Brain, Send, ArrowLeft, Lightbulb, BookOpen, Award, Volume2, Mic } from 'lucide-react';
 import { toast } from 'sonner';
 import ChatTimer from '@/components/ChatTimer';
+import ExitConfirmDialog from '@/components/ExitConfirmDialog';
 
 const Chat = () => {
   const [searchParams] = useSearchParams();
@@ -18,6 +18,7 @@ const Chat = () => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [currentFeedback, setCurrentFeedback] = useState<any>(null);
   const [conversationEnded, setConversationEnded] = useState(false);
+  const [showExitDialog, setShowExitDialog] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const persona = searchParams.get('persona');
@@ -50,6 +51,13 @@ const Chat = () => {
   };
 
   const currentPersona = personaConfigs[persona as keyof typeof personaConfigs];
+
+  // Calculate conversation progress
+  const getConversationProgress = () => {
+    const userMessages = messages.filter(m => m.type === 'user').length;
+    const expectedMessages = 5; // 예상되는 총 대화 횟수
+    return Math.min((userMessages / expectedMessages) * 100, 100);
+  };
 
   useEffect(() => {
     if (currentPersona) {
@@ -162,6 +170,28 @@ const Chat = () => {
     }, 3000);
   };
 
+  const handleBackClick = () => {
+    if (conversationEnded) {
+      navigate('/');
+      return;
+    }
+
+    // 대화 진행률이 20% 미만이면 바로 나가기 허용
+    const progress = getConversationProgress();
+    if (progress < 20) {
+      navigate('/');
+      return;
+    }
+
+    // 그 외의 경우 확인 다이얼로그 표시
+    setShowExitDialog(true);
+  };
+
+  const handleConfirmExit = () => {
+    setShowExitDialog(false);
+    navigate('/');
+  };
+
   if (!currentPersona || !currentTopic) {
     return <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center">페이지를 찾을 수 없습니다.</div>;
   }
@@ -173,7 +203,7 @@ const Chat = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="sm" onClick={() => navigate('/')} className="text-slate-300 hover:text-white">
+              <Button variant="ghost" size="sm" onClick={handleBackClick} className="text-slate-300 hover:text-white">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 돌아가기
               </Button>
@@ -385,6 +415,14 @@ const Chat = () => {
           </div>
         </div>
       </div>
+
+      {/* Exit Confirmation Dialog */}
+      <ExitConfirmDialog
+        isOpen={showExitDialog}
+        onClose={() => setShowExitDialog(false)}
+        onConfirmExit={handleConfirmExit}
+        conversationProgress={getConversationProgress()}
+      />
     </div>
   );
 };

@@ -1,9 +1,10 @@
+
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Brain, MessageCircle, TrendingUp, Users, ArrowRight, BookOpen, Target, Award } from 'lucide-react';
+import { Brain, MessageCircle, TrendingUp, Users, ArrowRight, BookOpen, Target, Award, Zap, Trophy, PlusCircle } from 'lucide-react';
 import ConceptCard from '@/components/ConceptCard';
 
 const Index = () => {
@@ -137,7 +138,23 @@ const Index = () => {
                 <p className="text-sm text-slate-400">AI와 함께하는 CS 면접 준비</p>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <Button variant="ghost" size="sm" onClick={() => navigate('/goals')} className="text-slate-300 hover:text-white">
+                <Target className="w-4 h-4 mr-2" />
+                목표 & 보상
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => navigate('/skill-test')} className="text-slate-300 hover:text-white">
+                <Trophy className="w-4 h-4 mr-2" />
+                실력 테스트
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => navigate('/community')} className="text-slate-300 hover:text-white">
+                <Users className="w-4 h-4 mr-2" />
+                커뮤니티
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => navigate('/custom-topics')} className="text-slate-300 hover:text-white">
+                <PlusCircle className="w-4 h-4 mr-2" />
+                커스텀 주제
+              </Button>
               <Button variant="ghost" size="sm" onClick={() => navigate('/progress')} className="text-slate-300 hover:text-white">
                 <TrendingUp className="w-4 h-4 mr-2" />
                 내 진도
