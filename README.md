@@ -11,7 +11,7 @@ GPT는 답변을 분석해 **누락된 개념과 키워드**를 피드백하고,
 ---
 
 ## 🔗 배포 URL  
-👉 https://dev-chat.lovable.app/
+👉 https://dev-chat-omega.vercel.app/
 
 ---
 
